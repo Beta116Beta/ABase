@@ -248,6 +248,16 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
                 .setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
                 .commitAllowingStateLoss() //触发Fragment的onResume
         }
+            //防止出现没有隐藏的情况
+    supportFragmentManager.fragments.forEach { ff ->
+      if (ff != currentFragment) {
+        if (fragmentList.contains(ff)) {
+          FragmentUtils.hide(ff)
+        } else {
+          FragmentUtils.remove(ff)
+        }
+      }
+    }
     }
     //</editor-fold>
 
