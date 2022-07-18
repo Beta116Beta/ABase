@@ -70,7 +70,7 @@ fun ImageView.loadImgHorizontalBlur(
     this.clearLoad()
     if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
   } else {
-    if (getTag(R.id.suc_img) == url) {
+    if (getTag(R.id.suc_img) == "${url}_${blurRadius}_${blackWhite}") {
       return
     }
     val iv = this
@@ -88,7 +88,7 @@ fun ImageView.loadImgHorizontalBlur(
         if (blackWhite) list.add(GrayscaleTransformation())
         transformations(list)
       }
-      listener(onError = { r, e -> "横向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
+      listener(onError = { r, e -> "横向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, "${url}_${blurRadius}_${blackWhite}") }
     }
     val f = url.toFile()
     if (f != null) iv.load(f, builder = build) else iv.load(url, builder = build)
@@ -100,6 +100,9 @@ fun ImageView.loadImgBlurRes(
   @DrawableRes resId: Int, holderRatio: Float = 720f / 400, hasHolder: Boolean = true,
   @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false
 ) {
+    if (getTag(R.id.suc_img_res) == "${resId}_${blurRadius}_${blackWhite}") {
+    return
+  }
   val build = fun ImageRequest.Builder.() {
     if (hasHolder) {
       crossfade(duration)
@@ -115,6 +118,7 @@ fun ImageView.loadImgBlurRes(
       transformations(list)
     }
   }
+    this.setTag(R.id.suc_img_res, "${resId}_${blurRadius}_${blackWhite}")
   this.load(resId, builder = build)
 }
 
@@ -132,7 +136,7 @@ fun ImageView.loadImgVerticalBlur(
     this.clearLoad()
     if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
   } else {
-    if (getTag(R.id.suc_img) == url) {
+    if (getTag(R.id.suc_img) == "${url}_${blurRadius}_${blackWhite}") {
       return
     }
     val iv = this
@@ -150,7 +154,7 @@ fun ImageView.loadImgVerticalBlur(
         if (blackWhite) list.add(GrayscaleTransformation())
         transformations(list)
       }
-      listener(onError = { r, e -> "竖向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
+      listener(onError = { r, e -> "竖向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, "${url}_${blurRadius}_${blackWhite}") }
     }
     val f = url.toFile()
     if (f != null) iv.load(f, builder = build) else iv.load(url, builder = build)
